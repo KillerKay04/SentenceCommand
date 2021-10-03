@@ -14,8 +14,8 @@ TagManager:
   - Bacground
   - Middle
   - Foreground
+  - Foreground2
   - User UI
-  - 
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
   - name: Foreground
     uniqueID: 3842548509
     locked: 0
-  - name: User Interface
+  - name: Foreground2
     uniqueID: 1133079593
+    locked: 0
+  - name: User Interface
+    uniqueID: 2720628761
     locked: 0
