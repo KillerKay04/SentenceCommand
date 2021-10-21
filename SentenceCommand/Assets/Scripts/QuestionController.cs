@@ -6,17 +6,20 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 
 public class QuestionController : MonoBehaviour
 {
     // unity object refs
     public GameObject questionPrompt;
+    public GameObject fireButton;
     private List<GameObject> questionButtons;
     private List<GameObject> answerButtons;
     private List<Question> questionMapping;
 
     List<Question> qList;
     int nextQ;
+    int activeQuestion;
 
     /// <summary>
     /// Start is called before the first frame update. Initializes the question manager.
@@ -39,6 +42,7 @@ public class QuestionController : MonoBehaviour
 
         qList = new List<Question>();
         questionMapping = new List<Question>();
+        activeQuestion = -1;
 
         // run parser
         questionParser();
@@ -190,31 +194,26 @@ public class QuestionController : MonoBehaviour
     /// <param name="childIndex">The index of the question calling this handler. Question 0 through 3</param>
     public void clickQuestion(int childIndex)
     {
-        // Pseudocode
-        /*
-         * populate prompt
-         * populate answers
-         * store clicked question's index
-         * hide questions
-         * show answers
-         */
+        // populate prompt
+        questionPrompt.GetComponent<TMP_Text>().text = questionMapping[childIndex].prompt;
 
+        // populate answers
+        List<string> answers = questionMapping[childIndex].getAnswers();
+        for (int i = 0; i < 4; i++)
+        {
+            answerButtons[i].transform.GetChild(0).GetComponent<TMP_Text>().text = answers[i];
+        }
 
-        // Debug.Log("QuestionController clickQuestion");
-        // Hide all questions     
+        // store clicked question's index
+        activeQuestion = childIndex;
+
+        // hide questions
         hideQuestions();
 
-        // Generate question prompt
-        // Grab text out of question button (might change based on question service)
-        // childIndex is passed by the button calling this function. It tells us which button is calling us
-        var questionText = questionButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().text;
-        Debug.Log(questionText);
-
-        // put text into question prompt
-        questionPrompt.GetComponent<TMP_Text>().text = questionText;
-
-        // Show question prompt and possible answers
+        // show prompt
         questionPrompt.SetActive(true);
+
+        // show answers
         showAnswers();
     }
 
@@ -242,19 +241,79 @@ public class QuestionController : MonoBehaviour
          * show questions
          */
 
-        // Debug.Log("QuestionController clickAnswer");
+        // using a coroutine in order to have delay for user to read answer
+        StartCoroutine(handleAnswer(childIndex));
+    }
 
-        // Hide all answers
+    IEnumerator handleAnswer(int childIndex)
+    {
+        // check if correct answer
+        string selected = answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().text;
+        string correct = questionMapping[activeQuestion].correctAns;
+        // if correct
+        if (selected.Equals(correct))
+        {
+            // make answer green
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(0.0f, 255.0f, 0.0f, 1.0f);
+
+            // delay for user
+            yield return new WaitForSeconds(1.0f);
+
+            // reset answer color
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
+
+            // increment ammo counter
+            string text = fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text;
+            int x = int.Parse(text);
+            x++;
+            fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text = x.ToString();
+        }
+        // incorrect
+        else
+        {
+            // make answer red
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 0.0f, 0.0f, 1.0f);
+
+            int correctInd = 0;
+
+            // make correct answer green
+            for (int i = 0; i < answerButtons.Count; i++)
+            {
+                if (answerButtons[i].transform.GetChild(0).GetComponent<TMP_Text>().text.Equals(correct))
+                {
+                    // correct answer, make green
+                    correctInd = i;
+                    answerButtons[i].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(0.0f, 255.0f, 0.0f, 1.0f);
+                    break;
+                }
+            }
+
+            // delay for user
+            yield return new WaitForSeconds(1.0f);
+
+            // reset answers color
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
+            answerButtons[correctInd].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);            
+        }
+
+        // reset prompt
+        questionPrompt.GetComponent<TMP_Text>().text = "";
+
+        // reset answers
+        for (int i = 0; i < 4; i++)
+        {
+            answerButtons[i].transform.GetChild(0).GetComponent<TMP_Text>().text = "";
+        }
+
+        // replace stored question with new question
+        questionMapping[activeQuestion] = getNextQ();
+        questionButtons[activeQuestion].transform.GetChild(0).GetComponent<TMP_Text>().text = questionMapping[activeQuestion].prompt;
+        activeQuestion = -1;
+
+        // hide answers
         hideAnswers();
 
-        // TODO logic for correct answer or incorrect answer selection
-
-        // reset question prompt
-        questionPrompt.GetComponent<TMP_Text>().text = "Question Prompt";
-
-        // Hide question prompt, show questions
-        questionPrompt.SetActive(false);
+        // show questions
         showQuestions();
-
     }
 }
