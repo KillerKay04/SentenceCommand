@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PathCreation;
 
 public class EnemyGenerator : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField]
     private GameObject[] enemyTypes;
 
-    //[SerializeField]
-    //public List<GameObject> enemies = new List<GameObject>();
+    [SerializeField]
+    private PathCreator[] enemyPaths;
 
     [SerializeField]
     private int maxEnemies;
@@ -18,7 +19,10 @@ public class EnemyGenerator : MonoBehaviour
     private Transform spawnLocation;
 
     private bool isGenerating;
+
     private int enemyCount = 0;
+
+    public List<GameObject> enemyList = new List<GameObject>();
 
     private void Start()
     {
@@ -37,13 +41,23 @@ public class EnemyGenerator : MonoBehaviour
 
     IEnumerator GenerateEnemy()
     {
-        yield return new WaitForSeconds(Random.Range(8.0f, 12.0f));
-        int enemyType = Random.Range(0, enemyTypes.Length - 1);
-        Instantiate(enemyTypes[enemyType], spawnLocation.position, Quaternion.identity);
+        yield return new WaitForSeconds(Random.Range(5.0f, 10.0f));
+        int enemyType = Random.Range(0, enemyTypes.Length);
+        enemyList.Add(Instantiate(enemyTypes[enemyType], spawnLocation.position, Quaternion.identity));
         enemyCount++;
         isGenerating = false;
     }
 
+    public PathCreator AssignPath()
+    {
+        return enemyPaths[Random.Range(0, enemyPaths.Length)];
+    }
+
+    public void decreaseEnemyCount()
+    {
+        enemyCount--;
+        Debug.Log(enemyCount);
+    }
     
 
 }
