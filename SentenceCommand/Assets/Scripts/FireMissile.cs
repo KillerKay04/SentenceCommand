@@ -12,6 +12,11 @@ public class FireMissile : MonoBehaviour
     [SerializeField]
     private GameObject fireButton;
 
+    [SerializeField]
+    private GameObject userScoreText;
+
+    private int currentScore = 0;
+
     public void FireAtEnemy()
     {
         GameObject[] enemies;
@@ -43,6 +48,7 @@ public class FireMissile : MonoBehaviour
                         //RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, directionBaseToEnemy);
                     }
                     EnemyController enemyFunctions = closestEnemy.GetComponent<EnemyController>();
+                    addToScore(enemyDistance);
                     enemyFunctions.destroyEnemy();
                     Debug.Log("Enemy destroyed");
                 }
@@ -63,5 +69,10 @@ public class FireMissile : MonoBehaviour
         return ammoCount;
     }
 
+    private void addToScore(float distancePoints)
+    {
+        currentScore += (int)distancePoints * 10;
+        userScoreText.GetComponent<TMP_Text>().text = currentScore.ToString();
+    }
 
 }
