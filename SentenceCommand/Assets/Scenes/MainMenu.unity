@@ -436,8 +436,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 155077336}
-        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: PauseMusic
+        m_TargetAssemblyTypeName: AudioMainMenu, Assembly-CSharp
+        m_MethodName: MuteMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -446,7 +446,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &155077336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,12 +456,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 155077331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8dd98c35f3f5b49a0418957c83030c, type: 3}
+  m_Script: {fileID: 11500000, guid: 374ee6e41bfa03c4b8b8c7912b4c5f9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicToggleButton: {fileID: 155077335}
+  musicMuteSprite: {fileID: 21300000, guid: 55d9e8d18ef1b214f8e310485772256f, type: 3}
   musicOnSprite: {fileID: 21300000, guid: 89de670122fb0d7418e54350281ceb94, type: 3}
-  musicOffSprite: {fileID: 21300000, guid: 55d9e8d18ef1b214f8e310485772256f, type: 3}
 --- !u!1 &268178129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,7 +2413,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 775f93e46ae1cee40b1205cfec0032a2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2524,6 +2523,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ea47fcbe1a72d42a649b2d7bc8dddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  music: {fileID: 1608917747}
+  musicButtonOn: {fileID: 21300000, guid: 89de670122fb0d7418e54350281ceb94, type: 3}
+  musicButtonOff: {fileID: 21300000, guid: 55d9e8d18ef1b214f8e310485772256f, type: 3}
 --- !u!1 &1794519452
 GameObject:
   m_ObjectHideFlags: 0
