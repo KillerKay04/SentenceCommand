@@ -17,6 +17,15 @@ public class FireMissile : MonoBehaviour
 
     private int currentScore = 0;
 
+    // Audio
+    private AudioGameScene ags;
+
+    void Start()
+    {
+        // Audio
+        ags = GameObject.FindObjectOfType(typeof(AudioGameScene)) as AudioGameScene;
+    }
+
     public void FireAtEnemy()
     {
         GameObject[] enemies;
@@ -51,6 +60,7 @@ public class FireMissile : MonoBehaviour
                     addToScore(enemyDistance);
                     enemyFunctions.destroyEnemy();
                     Debug.Log("Enemy destroyed");
+                    ags.PlayUFOHit();
                 }
             }
         }

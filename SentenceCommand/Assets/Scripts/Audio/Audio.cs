@@ -7,8 +7,7 @@ public class Audio : MonoBehaviour
 {
     public static Audio instance = null;
     public AudioSource music;
-    public Sprite musicButtonOn;
-    public Sprite musicButtonOff;
+    public AudioSource UIBlip;
 
     private void Start()
     {
@@ -65,5 +64,10 @@ public class Audio : MonoBehaviour
     {
         PlayerPrefs.SetFloat("MusicVolume", newVol);
         music.volume = newVol / 100.0f;        
+    }
+
+    public void PlayUIBlip()
+    {
+        UIBlip.Play();
     }
 }
