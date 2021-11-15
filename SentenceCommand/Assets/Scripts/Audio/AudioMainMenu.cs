@@ -29,6 +29,11 @@ public class AudioMainMenu : MonoBehaviour
         Audio.instance.MuteMusic();
     }
 
+    public void PlayUIBlip()
+    {
+        Audio.instance.PlayUIBlip();
+    }
+
     private void UpdateSprites()
     {
         muted = PlayerPrefs.GetInt("MusicMute");
@@ -36,12 +41,12 @@ public class AudioMainMenu : MonoBehaviour
         if (muted == 1)
         {
             // set sprite to muted
-            this.gameObject.transform.GetComponent<Image>().sprite = musicMuteSprite;            
+            this.gameObject.transform.Find("Sound").GetComponent<Image>().sprite = musicMuteSprite;         
         }
         else
         {
             // set sprite to notMuted
-            this.gameObject.transform.GetComponent<Image>().sprite = musicOnSprite;
+            this.gameObject.transform.Find("Sound").GetComponent<Image>().sprite = musicOnSprite;
         }
     }
 }

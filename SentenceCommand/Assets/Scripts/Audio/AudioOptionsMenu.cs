@@ -30,11 +30,11 @@ public class AudioOptionsMenu : MonoBehaviour
         muted = PlayerPrefs.GetInt("MusicMute");
         if (muted == 1)
         {
-            this.gameObject.transform.GetChild(2).GetComponent<Toggle>().SetIsOnWithoutNotify(false);
+            this.gameObject.transform.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(false);
         }
         else
         {
-            this.gameObject.transform.GetChild(2).GetComponent<Toggle>().SetIsOnWithoutNotify(true);
+            this.gameObject.transform.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(true);
         }
 
         // update slider
@@ -43,11 +43,11 @@ public class AudioOptionsMenu : MonoBehaviour
         if (muted == 1)
         {
             // if muted set slider value to 0
-            this.gameObject.transform.GetChild(1).GetComponent<Slider>().SetValueWithoutNotify(0);
+            this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(0);
         }
         else
         {
-            this.gameObject.transform.GetChild(1).GetComponent<Slider>().SetValueWithoutNotify(volume);
+            this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(volume);
         }
     }
 
@@ -60,7 +60,7 @@ public class AudioOptionsMenu : MonoBehaviour
     public void UpdateVolume()
     {
         float newVol;
-        newVol = this.gameObject.transform.GetChild(1).GetComponent<Slider>().value;
+        newVol = this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().value;
         Audio.instance.UpdateVolume(newVol);
     }    
 }

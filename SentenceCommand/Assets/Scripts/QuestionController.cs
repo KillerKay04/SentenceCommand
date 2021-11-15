@@ -10,6 +10,8 @@ using System.Collections;
 
 public class QuestionController : MonoBehaviour
 {
+    const float DELAY = 2.0f;
+
     // unity object refs
     public GameObject questionPrompt;
     public GameObject fireButton;
@@ -20,6 +22,9 @@ public class QuestionController : MonoBehaviour
     List<Question> qList;
     int nextQ;
     int activeQuestion;
+
+    // Audio
+    private AudioGameScene ags;
 
     /// <summary>
     /// Start is called before the first frame update. Initializes the question manager.
@@ -57,6 +62,8 @@ public class QuestionController : MonoBehaviour
         questionMapping.Add(getNextQ());
         updateQuestion(3);
 
+        // Audio
+        ags = GameObject.FindObjectOfType(typeof(AudioGameScene)) as AudioGameScene;
     }
 
     /// <summary>
@@ -256,8 +263,11 @@ public class QuestionController : MonoBehaviour
             // make answer green
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(0.0f, 255.0f, 0.0f, 1.0f);
 
+            // Play correct sound
+            ags.PlayAnswerCorrect();
+
             // delay for user
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(DELAY);
 
             // reset answer color
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
@@ -288,8 +298,11 @@ public class QuestionController : MonoBehaviour
                 }
             }
 
+            // Play sound
+            ags.PlayAnswerWrong();
+
             // delay for user
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(DELAY);
 
             // reset answers color
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);

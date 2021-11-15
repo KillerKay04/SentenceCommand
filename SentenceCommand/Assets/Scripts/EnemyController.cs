@@ -14,10 +14,17 @@ public class EnemyController : MonoBehaviour
 
     private float distanceTravelled;
 
+    // for sound effects (Audio Game Scene)
+    private AudioGameScene ags;
+
     private void Start()
     {
         enemySpawn = GameObject.FindObjectOfType(typeof(EnemyGenerator)) as EnemyGenerator;
         enemyPath = enemySpawn.AssignPath();
+        // instantiate audio controller
+        ags = GameObject.FindObjectOfType(typeof(AudioGameScene)) as AudioGameScene;
+        // not certain this is the correct spot for this
+        ags.PlayUFOSpawn();
     }
 
     // Update is called once per frame
@@ -31,6 +38,10 @@ public class EnemyController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Base")
         {
+            // if hits base, play damage sound
+            // TODO, if base hit, but not destroyed play damaged
+            // else play destroyed and end game.
+            ags.PlayBaseDamaged();
             destroyEnemy();
         }
     }
