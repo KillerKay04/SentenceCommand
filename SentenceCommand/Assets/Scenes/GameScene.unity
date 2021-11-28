@@ -991,7 +991,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.4783454}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1002,7 +1002,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6.5632496, y: 2.8177104}
   m_EdgeRadius: 0
 --- !u!1 &383974068
 GameObject:
@@ -6022,6 +6022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyTypes:
   - {fileID: 1398997457968208031, guid: a8a06e0e1f5cdc944b2d12ad388643b0, type: 3}
+  - {fileID: 4593745453740275680, guid: f8b276b269922ce48a9b0f60a23d4c7b, type: 3}
+  - {fileID: 1846727769290214515, guid: 0e5a1ec0336b8f541b3f4919f1684870, type: 3}
   enemyPaths:
   - {fileID: 7024715250641075309}
   - {fileID: 770857557}
