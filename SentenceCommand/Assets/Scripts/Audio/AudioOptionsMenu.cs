@@ -5,20 +5,28 @@ using UnityEngine.UI;
 
 public class AudioOptionsMenu : MonoBehaviour
 {
-    private int muted = 0;
-    private float volume = 50f;
+    private int musicMuted = 0;
+    private float musicVolume = 50f;
+    private int FXMuted = 0;
+    private float FXVolume = 50f;
 
     private void Start()
     {
         // get existing values
-        muted = PlayerPrefs.GetInt("MusicMute");
-        volume = PlayerPrefs.GetFloat("MusicVolume");
+        musicMuted = PlayerPrefs.GetInt("MusicMute");
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+        FXMuted = PlayerPrefs.GetInt("FXMute");
+        FXVolume = PlayerPrefs.GetFloat("FXVolume");
         UpdateUI();
     }
 
     private void Update()
     {
-        if (PlayerPrefs.GetInt("MusicMute") != muted || PlayerPrefs.GetFloat("MusicVolume") != volume)
+        if (PlayerPrefs.GetInt("MusicMute") != musicMuted || PlayerPrefs.GetFloat("MusicVolume") != musicVolume)
+        {
+            UpdateUI();
+        }
+        if (PlayerPrefs.GetInt("FXMute") != FXMuted || PlayerPrefs.GetFloat("FXVolume") != FXVolume)
         {
             UpdateUI();
         }
@@ -26,29 +34,60 @@ public class AudioOptionsMenu : MonoBehaviour
 
     private void UpdateUI()
     {
+
+        // Music Controls
+        #region Music Controls
         // update toggle
-        muted = PlayerPrefs.GetInt("MusicMute");
-        if (muted == 1)
+        musicMuted = PlayerPrefs.GetInt("MusicMute");
+        if (musicMuted == 1)
         {
-            this.gameObject.transform.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(false);
+            GameObject.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(false);
         }
         else
         {
-            this.gameObject.transform.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(true);
+            GameObject.Find("MusicToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(true);
         }
 
         // update slider
-        volume = PlayerPrefs.GetFloat("MusicVolume");
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume");
         // test muted
-        if (muted == 1)
+        if (musicMuted == 1)
         {
             // if muted set slider value to 0
-            this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(0);
+            GameObject.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(0);
         }
         else
         {
-            this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(volume);
+            GameObject.Find("MusicVolume").GetComponent<Slider>().SetValueWithoutNotify(musicVolume);
         }
+        #endregion
+
+        // FX Controls
+        #region FX Controls
+        // update toggle
+        FXMuted = PlayerPrefs.GetInt("FXMute");
+        if (FXMuted == 1)
+        {
+            GameObject.Find("EffectsToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(false);
+        }
+        else
+        {
+            GameObject.Find("EffectsToggle").GetComponent<Toggle>().SetIsOnWithoutNotify(true);
+        }
+
+        // update slider
+        FXVolume = PlayerPrefs.GetFloat("FXVolume");
+        // test muted
+        if (FXMuted == 1)
+        {
+            // if muted set slider value to 0
+            GameObject.Find("EffectsVolume").GetComponent<Slider>().SetValueWithoutNotify(0);
+        }
+        else
+        {
+            GameObject.Find("EffectsVolume").GetComponent<Slider>().SetValueWithoutNotify(FXVolume);
+        }
+        #endregion
     }
 
     public void MuteMusic()
@@ -57,10 +96,27 @@ public class AudioOptionsMenu : MonoBehaviour
     }
 
    
-    public void UpdateVolume()
+    public void UpdateMusicVolume()
     {
         float newVol;
         newVol = this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().value;
-        Audio.instance.UpdateVolume(newVol);
+        Audio.instance.UpdateMusicVolume(newVol);
     }    
+
+    public void MuteFX()
+    {
+        Audio.instance.MuteFX();
+    }
+
+    public void UpdateFXVolume()
+    {
+        float newVol;
+        newVol = this.gameObject.transform.Find("EffectsVolume").GetComponent<Slider>().value;
+        Audio.instance.UpdateFXVolume(newVol);
+    }
+
+    public void PlayUIBlip()
+    {
+        Audio.instance.PlayUIBlip();
+    }
 }
