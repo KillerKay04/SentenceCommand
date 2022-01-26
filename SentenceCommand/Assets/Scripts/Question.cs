@@ -10,6 +10,7 @@ public class Question
     public string correctAns { get; set; }
     public string explain { get; set; } // For future use
     public string category { get; set; }
+    public GlobalVars.AmmoType ammoType { get; set; }
 
     public Question(long id)
     {

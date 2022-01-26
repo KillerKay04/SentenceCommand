@@ -16,6 +16,7 @@ public class QuestionController : MonoBehaviour
     public GameObject questionPrompt;
     public GameObject fireButton;
     public GameObject answerGroup;
+    public GameObject ammoTypes;
     private List<GameObject> questionButtons;
     private List<GameObject> answerButtons;
     private List<Question> questionMapping;
@@ -47,21 +48,6 @@ public class QuestionController : MonoBehaviour
         answerButtons.Add(gameObject.transform.GetChild(4).GetChild(2).gameObject);
         answerButtons.Add(gameObject.transform.GetChild(4).GetChild(3).gameObject);
 
-        /*
-        answerButtons.Add(GameObject.Find("AnswerButton0"));
-        answerButtons.Add(GameObject.Find("AnswerButton1"));
-        answerButtons.Add(GameObject.Find("AnswerButton2"));
-        answerButtons.Add(GameObject.Find("AnswerButton3"));
-
-
-        
-        answerButtons.Add(gameObject.transform.GetChild(4).gameObject);
-        
-        answerButtons.Add(gameObject.transform.GetChild(5).gameObject);
-        answerButtons.Add(gameObject.transform.GetChild(6).gameObject);
-        answerButtons.Add(gameObject.transform.GetChild(7).gameObject);
-        */
-
         qList = new List<Question>();
         questionMapping = new List<Question>();
         activeQuestion = -1;
@@ -84,13 +70,30 @@ public class QuestionController : MonoBehaviour
     }
 
     /// <summary>
-    /// sets the text of the questionButton to be the prompt of its underlying question object
+    /// Updates the text of the question button to match the underlying question object.
+    /// Also updates the color of the ammotype label to match the underlying question object.
     /// </summary>
     /// <param name="qIndex">The index of the question you wish to update</param>
     private void updateQuestion(int qIndex)
     {
         // get prompt out of Question and stick into button text
         questionButtons[qIndex].transform.GetChild(0).GetComponent<TMP_Text>().text = questionMapping[qIndex].prompt;
+        // set ammotype label
+        switch (questionMapping[qIndex].ammoType)
+        {
+            case GlobalVars.AmmoType.Standard:
+                // set ammoType color to red
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+                break;
+            case GlobalVars.AmmoType.Homing:
+                // set ammoType color to blue
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(0, 0, 255, 255);
+                break;
+            case GlobalVars.AmmoType.Split:
+                // set ammoType color to yellow
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 174, 0, 255);
+                break;
+        }
     }
 
     // serves up the next question in line
@@ -104,6 +107,26 @@ public class QuestionController : MonoBehaviour
 
         Question nextUp = qList[nextQ];
         nextQ++;
+
+        // Assign a random ammo type to the question
+        // setting it here makes it so the ammoType is not tied to the question.
+        // That way, when we see this question again, it won't necessarily be the same ammoType.
+        System.Random random = new System.Random();
+        // right now it will be an even 33% chance for each ammo type
+        int x = random.Next(3);
+        switch(x)
+        {
+            case 0:
+                nextUp.ammoType = GlobalVars.AmmoType.Standard;
+                break;
+            case 1:
+                nextUp.ammoType = GlobalVars.AmmoType.Homing;
+                break;
+            case 2:
+                nextUp.ammoType = GlobalVars.AmmoType.Split;
+                break;
+        }
+
         return nextUp;
     }
 
@@ -114,10 +137,9 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     void questionParser()
     {
-
-        // for now, we will manually create some questions to be used
         long counter = 0;
 
+        // for now, we will manually create some questions to be used
         Question q = new Question(counter);
         q.prompt = "Although it does contain some fresh ideas, I would hardly describe the work as ______.";
         List<string> answers = new List<string>();
@@ -260,12 +282,6 @@ public class QuestionController : MonoBehaviour
     void hideAnswers()
     {
         answerGroup.SetActive(false);
-        /*
-        answerButtons[0].SetActive(false);
-        answerButtons[1].SetActive(false);
-        answerButtons[2].SetActive(false);
-        answerButtons[3].SetActive(false);
-        */
     }
     /// <summary>
     /// Shows the question buttons
@@ -283,12 +299,6 @@ public class QuestionController : MonoBehaviour
     void showAnswers()
     {
         answerGroup.SetActive(true);
-        /*
-        answerButtons[0].SetActive(true);
-        answerButtons[1].SetActive(true);
-        answerButtons[2].SetActive(true);
-        answerButtons[3].SetActive(true);
-        */
     }
 
     /// <summary>
@@ -296,8 +306,7 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     /// <param name="childIndex">The index of the question calling this handler. Question 0 through 3</param>
     public void clickQuestion(int childIndex)
-    {
-        
+    {        
         // populate prompt
         questionPrompt.GetComponent<TMP_Text>().text = questionMapping[childIndex].prompt;
 
@@ -305,7 +314,6 @@ public class QuestionController : MonoBehaviour
         List<string> answers = questionMapping[childIndex].getAnswers();
         for (int i = 0; i < 4; i++)
         {
-            Debug.Log(answerButtons[i]);
             answerButtons[i].transform.GetChild(0).GetComponent<TMP_Text>().text = answers[i];
         }
 
@@ -370,11 +378,21 @@ public class QuestionController : MonoBehaviour
             // reset answer color
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
 
-            // increment ammo counter
-            string text = fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text;
-            int x = int.Parse(text);
-            x++;
-            fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text = x.ToString();
+            // increment corresponding ammo counter
+            switch (questionMapping[activeQuestion].ammoType)
+            {
+                case GlobalVars.AmmoType.Standard:
+                    GlobalVars.ammoStandard++;
+                    break;
+                case GlobalVars.AmmoType.Homing:
+                    GlobalVars.ammoHoming++;
+                    break;
+                case GlobalVars.AmmoType.Split:
+                    GlobalVars.ammoSplit++;                    
+                    break;
+            }
+            // update ammo count labels
+            ammoTypes.gameObject.GetComponent<WeaponSelector>().updateValues();
         }
         // incorrect
         else
@@ -418,7 +436,7 @@ public class QuestionController : MonoBehaviour
 
         // replace stored question with new question
         questionMapping[activeQuestion] = getNextQ();
-        questionButtons[activeQuestion].transform.GetChild(0).GetComponent<TMP_Text>().text = questionMapping[activeQuestion].prompt;
+        updateQuestion(activeQuestion);        
         activeQuestion = -1;
 
         // hide answers

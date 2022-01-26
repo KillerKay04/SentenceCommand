@@ -7,44 +7,40 @@ public class WeaponSelector : MonoBehaviour
 
     public GameObject standardBorder;
     public GameObject HomingBorder;
-    public GameObject DuckfootBorder;
+    public GameObject SplitBorder;
 
-    public int selected = 0;
-
-    private void Start()
-    {
-        PlayerPrefs.SetInt("SelectedWeapon", selected);
-    }
+    public GameObject ammoLabelStandard;
+    public GameObject ammoLabelHoming;
+    public GameObject ammoLabelSplit;
 
     public void selectStandard()
     {
-        selected = 0;
+        GlobalVars.SelectedAmmoType = GlobalVars.AmmoType.Standard;
         standardBorder.SetActive(true);
         HomingBorder.SetActive(false);
-        DuckfootBorder.SetActive(false);
-        updateSelectedPref();
+        SplitBorder.SetActive(false);
     }
 
     public void selectHoming()
     {
-        selected = 1;
+        GlobalVars.SelectedAmmoType = GlobalVars.AmmoType.Homing;
         standardBorder.SetActive(false);
         HomingBorder.SetActive(true);
-        DuckfootBorder.SetActive(false);
-        updateSelectedPref();
+        SplitBorder.SetActive(false);
     }
 
-    public void selectDuckfoot()
+    public void selectSplit()
     {
-        selected = 2;
+        GlobalVars.SelectedAmmoType = GlobalVars.AmmoType.Split;
         standardBorder.SetActive(false);
         HomingBorder.SetActive(false);
-        DuckfootBorder.SetActive(true);
-        updateSelectedPref();
+        SplitBorder.SetActive(true);
     }
 
-    private void updateSelectedPref()
+     public void updateValues()
     {
-        PlayerPrefs.SetInt("SelectedWeapon", selected);
+        ammoLabelStandard.transform.GetComponent<TMPro.TextMeshProUGUI>().text = GlobalVars.ammoStandard.ToString();
+        ammoLabelHoming.transform.GetComponent<TMPro.TextMeshProUGUI>().text = GlobalVars.ammoHoming.ToString();
+        ammoLabelSplit.transform.GetComponent<TMPro.TextMeshProUGUI>().text = GlobalVars.ammoSplit.ToString();
     }
 }

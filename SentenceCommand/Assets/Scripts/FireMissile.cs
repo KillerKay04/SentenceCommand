@@ -20,17 +20,22 @@ public class FireMissile : MonoBehaviour
     // Audio
     private AudioGameScene ags;
 
+    // WeaponSelector
+    private GameObject weaponSelector;
+
     void Start()
     {
         // Audio
         ags = GameObject.FindObjectOfType(typeof(AudioGameScene)) as AudioGameScene;
+
+        // weaponSelector
+        weaponSelector = GameObject.Find("AmmoTypes");        
     }
 
     public void FireAtEnemy()
     {
         GameObject[] enemies;
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
         if (ammoCheck() > 0)
         {
             {
@@ -59,6 +64,23 @@ public class FireMissile : MonoBehaviour
                     EnemyController enemyFunctions = closestEnemy.GetComponent<EnemyController>();
                     addToScore(enemyDistance);
                     enemyFunctions.destroyEnemy();
+
+                    // decrement ammo counter of selected ammoType
+                    switch (GlobalVars.SelectedAmmoType)
+                    {
+                        case GlobalVars.AmmoType.Standard:
+                            GlobalVars.ammoStandard--;
+                            break;
+                        case GlobalVars.AmmoType.Homing:
+                            GlobalVars.ammoHoming--;
+                            break;
+                        case GlobalVars.AmmoType.Split:
+                            GlobalVars.ammoSplit--;
+                            break;
+                    }
+                    // tell weapon selector to update its labels
+                    weaponSelector.transform.GetComponent<WeaponSelector>().updateValues();
+
                     Debug.Log("Enemy destroyed");
                     ags.PlayUFOHit();
                 }
@@ -68,6 +90,7 @@ public class FireMissile : MonoBehaviour
 
     private int ammoCheck()
     {
+        /*
         int ammoCount = 0;
 
         string ammoText = fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text;
@@ -77,6 +100,21 @@ public class FireMissile : MonoBehaviour
         Debug.Log(ammoCount);
 
         return ammoCount;
+        */
+        // check how much ammo from global vars, depending on which ammoType is currently selected
+        switch (GlobalVars.SelectedAmmoType)
+        {
+            case GlobalVars.AmmoType.Standard:
+                return GlobalVars.ammoStandard;
+            case GlobalVars.AmmoType.Homing:
+                return GlobalVars.ammoHoming;
+            case GlobalVars.AmmoType.Split:
+                return GlobalVars.ammoSplit;
+            default:
+                // something has gone wrong, and there isn't a selected ammo type
+                return -1;
+        }
+        
     }
 
     private void addToScore(float distancePoints)
