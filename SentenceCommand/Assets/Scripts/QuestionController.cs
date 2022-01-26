@@ -15,6 +15,8 @@ public class QuestionController : MonoBehaviour
     // unity object refs
     public GameObject questionPrompt;
     public GameObject fireButton;
+    public GameObject answerGroup;
+    public GameObject ammoTypes;
     private List<GameObject> questionButtons;
     private List<GameObject> answerButtons;
     private List<Question> questionMapping;
@@ -37,13 +39,14 @@ public class QuestionController : MonoBehaviour
 
         questionButtons.Add(gameObject.transform.GetChild(0).gameObject);
         questionButtons.Add(gameObject.transform.GetChild(1).gameObject);
-        questionButtons.Add(gameObject.transform.GetChild(2).gameObject);
+        questionButtons.Add(gameObject.transform.GetChild(2).gameObject);      
         questionButtons.Add(gameObject.transform.GetChild(3).gameObject);
 
-        answerButtons.Add(gameObject.transform.GetChild(4).gameObject);
-        answerButtons.Add(gameObject.transform.GetChild(5).gameObject);
-        answerButtons.Add(gameObject.transform.GetChild(6).gameObject);
-        answerButtons.Add(gameObject.transform.GetChild(7).gameObject);
+
+        answerButtons.Add(gameObject.transform.GetChild(4).GetChild(0).gameObject);
+        answerButtons.Add(gameObject.transform.GetChild(4).GetChild(1).gameObject);
+        answerButtons.Add(gameObject.transform.GetChild(4).GetChild(2).gameObject);
+        answerButtons.Add(gameObject.transform.GetChild(4).GetChild(3).gameObject);
 
         qList = new List<Question>();
         questionMapping = new List<Question>();
@@ -67,13 +70,30 @@ public class QuestionController : MonoBehaviour
     }
 
     /// <summary>
-    /// sets the text of the questionButton to be the prompt of its underlying question object
+    /// Updates the text of the question button to match the underlying question object.
+    /// Also updates the color of the ammotype label to match the underlying question object.
     /// </summary>
     /// <param name="qIndex">The index of the question you wish to update</param>
     private void updateQuestion(int qIndex)
     {
         // get prompt out of Question and stick into button text
         questionButtons[qIndex].transform.GetChild(0).GetComponent<TMP_Text>().text = questionMapping[qIndex].prompt;
+        // set ammotype label
+        switch (questionMapping[qIndex].ammoType)
+        {
+            case GlobalVars.AmmoType.Standard:
+                // set ammoType color to red
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+                break;
+            case GlobalVars.AmmoType.Homing:
+                // set ammoType color to blue
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(0, 0, 255, 255);
+                break;
+            case GlobalVars.AmmoType.Split:
+                // set ammoType color to yellow
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 174, 0, 255);
+                break;
+        }
     }
 
     // serves up the next question in line
@@ -87,6 +107,26 @@ public class QuestionController : MonoBehaviour
 
         Question nextUp = qList[nextQ];
         nextQ++;
+
+        // Assign a random ammo type to the question
+        // setting it here makes it so the ammoType is not tied to the question.
+        // That way, when we see this question again, it won't necessarily be the same ammoType.
+        System.Random random = new System.Random();
+        // right now it will be an even 33% chance for each ammo type
+        int x = random.Next(3);
+        switch(x)
+        {
+            case 0:
+                nextUp.ammoType = GlobalVars.AmmoType.Standard;
+                break;
+            case 1:
+                nextUp.ammoType = GlobalVars.AmmoType.Homing;
+                break;
+            case 2:
+                nextUp.ammoType = GlobalVars.AmmoType.Split;
+                break;
+        }
+
         return nextUp;
     }
 
@@ -97,6 +137,76 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     void questionParser()
     {
+        long counter = 0;
+
+        // for now, we will manually create some questions to be used
+        Question q = new Question(counter);
+        q.prompt = "Although it does contain some fresh ideas, I would hardly describe the work as ______.";
+        List<string> answers = new List<string>();
+        answers.Add("Original");
+        answers.Add("Eccentric");
+        answers.Add("Orthodox");
+        answers.Add("Trifling");
+        q.correctAns = answers[0];
+        q.answers = answers;
+        q.explain = "";
+        qList.Add(q);
+        counter++;
+
+        q = new Question(counter);
+        q.prompt = "It was her view that the nation's problems had been _____ by social media, so that to ask for such assistance again would be counterproductive.";
+        answers = new List<string>();
+        answers.Add("Exacerbated");
+        answers.Add("Ameliorated");
+        answers.Add("Ascertained");
+        answers.Add("Diagnosed");
+        q.correctAns = answers[0];
+        q.answers = answers;
+        q.explain = "";
+        qList.Add(q);
+        counter++;
+
+        q = new Question(counter);
+        q.prompt = "It was her view that the nation's problems had been _____ by social media, so that to ask for such assistance again would be counterproductive.";
+        answers = new List<string>();
+        answers.Add("Exacerbated");
+        answers.Add("Ameliorated");
+        answers.Add("Ascertained");
+        answers.Add("Diagnosed");
+        q.correctAns = answers[0];
+        q.answers = answers;
+        q.explain = "";
+        qList.Add(q);
+        counter++;
+
+        q = new Question(counter);
+        q.prompt = "Early critics of Emily Dickinson's poetry mistook for simplemindedness the surface of artlessness that in fact she constructed with such _____.";
+        answers = new List<string>();
+        answers.Add("Cunning");
+        answers.Add("Astonishment");
+        answers.Add("Innocence");
+        answers.Add("Naivete");
+        q.correctAns = answers[0];
+        q.answers = answers;
+        q.explain = "";
+        qList.Add(q);
+        counter++;
+
+        q = new Question(counter);
+        q.prompt = "Dreams are _____ in and of themselves, but, when combined with other data, they can tell us much about the dreamer.";
+        answers = new List<string>();
+        answers.Add("Uninformative");
+        answers.Add("Astonishing");
+        answers.Add("Disordered");
+        answers.Add("Harmless");
+        q.correctAns = answers[0];
+        q.answers = answers;
+        q.explain = "";
+        qList.Add(q);
+        counter++;
+
+        /* This section of code will read and parse questions from a JSON file
+
         // open JSON file *** WILL CHANGE TO WORK WITH Q&A SERVICE ***
         string url = "Assets/Questions/questions.json";
 
@@ -127,6 +237,8 @@ public class QuestionController : MonoBehaviour
                 counter++;
             }
         }
+
+        */
 
         // shuffle list
         shuffleQList();
@@ -169,10 +281,7 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     void hideAnswers()
     {
-        answerButtons[0].SetActive(false);
-        answerButtons[1].SetActive(false);
-        answerButtons[2].SetActive(false);
-        answerButtons[3].SetActive(false);
+        answerGroup.SetActive(false);
     }
     /// <summary>
     /// Shows the question buttons
@@ -189,10 +298,7 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     void showAnswers()
     {
-        answerButtons[0].SetActive(true);
-        answerButtons[1].SetActive(true);
-        answerButtons[2].SetActive(true);
-        answerButtons[3].SetActive(true);
+        answerGroup.SetActive(true);
     }
 
     /// <summary>
@@ -200,7 +306,7 @@ public class QuestionController : MonoBehaviour
     /// </summary>
     /// <param name="childIndex">The index of the question calling this handler. Question 0 through 3</param>
     public void clickQuestion(int childIndex)
-    {
+    {        
         // populate prompt
         questionPrompt.GetComponent<TMP_Text>().text = questionMapping[childIndex].prompt;
 
@@ -272,11 +378,21 @@ public class QuestionController : MonoBehaviour
             // reset answer color
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
 
-            // increment ammo counter
-            string text = fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text;
-            int x = int.Parse(text);
-            x++;
-            fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text = x.ToString();
+            // increment corresponding ammo counter
+            switch (questionMapping[activeQuestion].ammoType)
+            {
+                case GlobalVars.AmmoType.Standard:
+                    GlobalVars.ammoStandard++;
+                    break;
+                case GlobalVars.AmmoType.Homing:
+                    GlobalVars.ammoHoming++;
+                    break;
+                case GlobalVars.AmmoType.Split:
+                    GlobalVars.ammoSplit++;                    
+                    break;
+            }
+            // update ammo count labels
+            ammoTypes.gameObject.GetComponent<WeaponSelector>().updateValues();
         }
         // incorrect
         else
@@ -320,7 +436,7 @@ public class QuestionController : MonoBehaviour
 
         // replace stored question with new question
         questionMapping[activeQuestion] = getNextQ();
-        questionButtons[activeQuestion].transform.GetChild(0).GetComponent<TMP_Text>().text = questionMapping[activeQuestion].prompt;
+        updateQuestion(activeQuestion);        
         activeQuestion = -1;
 
         // hide answers
