@@ -798,7 +798,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1456375922}
+      - m_Target: {fileID: 1736345366}
         m_TargetAssemblyTypeName: AudioOptionsMenu, Assembly-CSharp
         m_MethodName: MuteMusic
         m_Mode: 1
@@ -1324,9 +1324,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1456375922}
+      - m_Target: {fileID: 1736345366}
         m_TargetAssemblyTypeName: AudioOptionsMenu, Assembly-CSharp
-        m_MethodName: UpdateVolume
+        m_MethodName: UpdateMusicVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1421,7 +1421,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1456375921}
-  - component: {fileID: 1456375922}
   m_Layer: 5
   m_Name: MusicSetting
   m_TagString: Untagged
@@ -1446,18 +1445,6 @@ Transform:
   m_Father: {fileID: 1736345364}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1456375922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456375920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4b4591026f165d42b4d18f72ce3f9fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1504513385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1529,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1916715813}
+        m_TargetAssemblyTypeName: AudioOptionsMenu, Assembly-CSharp
+        m_MethodName: MuteFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1628544539
 GameObject:
@@ -1558,6 +1557,7 @@ GameObject:
   - component: {fileID: 1628544543}
   - component: {fileID: 1628544542}
   - component: {fileID: 1628544541}
+  - component: {fileID: 1628544546}
   m_Layer: 5
   m_Name: ReturnButton
   m_TagString: Untagged
@@ -1633,6 +1633,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1736345365}
         m_TargetAssemblyTypeName: OptionsMenu, Assembly-CSharp
         m_MethodName: LoadMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1736345366}
+        m_TargetAssemblyTypeName: AudioOptionsMenu, Assembly-CSharp
+        m_MethodName: PlayUIBlip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1720,6 +1732,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628544539}
   m_CullTransparentMesh: 1
+--- !u!114 &1628544546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628544539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b4591026f165d42b4d18f72ce3f9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1694412839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,6 +1973,7 @@ GameObject:
   - component: {fileID: 1736345362}
   - component: {fileID: 1736345361}
   - component: {fileID: 1736345365}
+  - component: {fileID: 1736345366}
   m_Layer: 5
   m_Name: OptionsUI
   m_TagString: Untagged
@@ -2049,6 +2074,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1948cbcd397c4dd43bf9a29431993e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1736345366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736345360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b4591026f165d42b4d18f72ce3f9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1736567833
@@ -2176,7 +2213,19 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1916715813}
+        m_TargetAssemblyTypeName: AudioOptionsMenu, Assembly-CSharp
+        m_MethodName: UpdateFXVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1784033007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,6 +2310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1916715812}
+  - component: {fileID: 1916715813}
   m_Layer: 5
   m_Name: EffectsSetting
   m_TagString: Untagged
@@ -2290,6 +2340,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -113}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1916715813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916715811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b4591026f165d42b4d18f72ce3f9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1917166033
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,20 @@ public class AudioGameScene : MonoBehaviour
     public AudioSource UFOHit;
     public AudioSource answerCorrect;
     public AudioSource answerWrong;
+
+    private void Start()
+    {
+        // set sound FX volumes
+        float vol = PlayerPrefs.GetFloat("FXVolume");
+        vol = vol / 100.0f;
+        baseDamaged.volume = vol;
+        baseDestroyed.volume = vol;
+        UFOSpawn.volume = vol;
+        UFOHit.volume = vol;
+        answerCorrect.volume = vol;
+        answerWrong.volume = vol;
+    }
+
     public void PlayUIBlip()
     {
         Audio.instance.PlayUIBlip();
