@@ -48,29 +48,30 @@ public class FireMissile : MonoBehaviour
 
                 if (enemies.Length > 0)
                 {
-                    GameObject closestEnemy = null;
-                    float enemyDistance = Mathf.Infinity;
-                    Vector2 basePosition = homeBase.transform.position;
+                    //GameObject closestEnemy = null;
+                    //float enemyDistance = Mathf.Infinity;
+                    //Vector2 basePosition = homeBase.transform.position;
 
-                    foreach (GameObject enemy in enemies)
-                    {
-                        Vector2 enemyVector = enemy.transform.position;
-                        Vector2 enemyToBase = enemyVector - basePosition;
-                        float currentDistance = enemyToBase.sqrMagnitude;
-                        if (currentDistance < enemyDistance)
-                        {
-                            closestEnemy = enemy;
-                            enemyDistance = currentDistance;
-                        }
+                    //foreach (GameObject enemy in enemies)
+                    //{
+                    //    Vector2 enemyVector = enemy.transform.position;
+                    //    Vector2 enemyToBase = enemyVector - basePosition;
+                    //    float currentDistance = enemyToBase.sqrMagnitude;
+                    //    if (currentDistance < enemyDistance)
+                    //    {
+                    //        closestEnemy = enemy;
+                    //        enemyDistance = currentDistance;
+                    //    }
 
-                        //Debug.Log(enemyToBase);
-                        //Vector2 directionBaseToEnemy = homeBase.transform.position - enemy.transform.position;
-                        //Debug.DrawRay(enemy.transform.position, directionBaseToEnemy, Color.green);
-                        //RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, directionBaseToEnemy);
-                    }
-                    EnemyController enemyFunctions = closestEnemy.GetComponent<EnemyController>();
-                    addToScore(enemyDistance);
-                    enemyFunctions.destroyEnemy();
+                    //    //draws ray to closest enemy for testing purposes
+                    //    //Debug.Log(enemyToBase);
+                    //    //Vector2 directionBaseToEnemy = homeBase.transform.position - enemy.transform.position;
+                    //    //Debug.DrawRay(enemy.transform.position, directionBaseToEnemy, Color.green);
+                    //    //RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, directionBaseToEnemy);
+                    //}
+                    //EnemyController enemyFunctions = closestEnemy.GetComponent<EnemyController>();
+                    //addToScore(enemyDistance);
+                    //enemyFunctions.destroyEnemy();
 
                     // decrement ammo counter of selected ammoType
                     switch (GlobalVars.SelectedAmmoType)
@@ -88,8 +89,8 @@ public class FireMissile : MonoBehaviour
                     // tell weapon selector to update its labels
                     weaponSelector.transform.GetComponent<WeaponSelector>().updateValues();
 
-                    Debug.Log("Enemy destroyed");
-                    ags.PlayUFOHit();
+                    //Debug.Log("Enemy destroyed");
+                    //ags.PlayUFOHit();
                 }
             }
         }
@@ -130,4 +131,13 @@ public class FireMissile : MonoBehaviour
         userScoreText.GetComponent<TMP_Text>().text = currentScore.ToString();
     }
 
+    /*
+     private void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.gameObject.tag == "Enemy") {
+            destroyEnemy();
+
+        }
+    }
+    */
+    
 }

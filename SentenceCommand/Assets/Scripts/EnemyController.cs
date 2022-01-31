@@ -42,8 +42,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Base")
-        {
+        if (collider.gameObject.tag == "Base") {
             //calls the setShielded method from Shield script
             baseShield.GetComponent<Shield>().setShielded();
 
@@ -53,6 +52,10 @@ public class EnemyController : MonoBehaviour
             ags.PlayBaseDamaged();
             destroyEnemy();
 
+        }
+        else if (collider.gameObject.tag == "Cannon") {
+            ags.PlayUFOHit();
+            destroyEnemy();
         }
     }
 
