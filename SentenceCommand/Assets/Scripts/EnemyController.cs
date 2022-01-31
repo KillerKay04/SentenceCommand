@@ -14,11 +14,16 @@ public class EnemyController : MonoBehaviour
 
     private float distanceTravelled;
 
+    //to call shield fade in/out
+    private GameObject baseShield;
+
     // for sound effects (Audio Game Scene)
     private AudioGameScene ags;
 
     private void Start()
     {
+        baseShield = GameObject.FindGameObjectWithTag("Base");
+
         enemySpawn = GameObject.FindObjectOfType(typeof(EnemyGenerator)) as EnemyGenerator;
         enemyPath = enemySpawn.AssignPath();
         // instantiate audio controller
@@ -32,17 +37,22 @@ public class EnemyController : MonoBehaviour
     {
         distanceTravelled += speed * Time.deltaTime;
         transform.position = enemyPath.path.GetPointAtDistance(distanceTravelled);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Base")
         {
+            //calls the setShielded method from Shield script
+            baseShield.GetComponent<Shield>().setShielded();
+
             // if hits base, play damage sound
             // TODO, if base hit, but not destroyed play damaged
             // else play destroyed and end game.
             ags.PlayBaseDamaged();
             destroyEnemy();
+
         }
     }
 
@@ -51,4 +61,6 @@ public class EnemyController : MonoBehaviour
         enemySpawn.decreaseEnemyCount();
         Destroy(this.gameObject);
     }
+
+  
 }

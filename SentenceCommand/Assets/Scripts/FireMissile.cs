@@ -10,7 +10,10 @@ public class FireMissile : MonoBehaviour
     private GameObject homeBase;
 
     [SerializeField]
-    private GameObject fireButton;
+    private GameObject missileSpawn;
+
+    [SerializeField]
+    private GameObject missile;
 
     [SerializeField]
     private GameObject userScoreText;
@@ -39,6 +42,10 @@ public class FireMissile : MonoBehaviour
         if (ammoCheck() > 0)
         {
             {
+
+                GameObject missileFired = Instantiate(missile, missileSpawn.transform.position, Quaternion.identity);
+                missileFired.GetComponent<Rigidbody2D>().velocity = 10 * transform.localScale.y * missileSpawn.transform.up;
+
                 if (enemies.Length > 0)
                 {
                     GameObject closestEnemy = null;
