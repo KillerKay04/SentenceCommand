@@ -99,7 +99,7 @@ public class AudioOptionsMenu : MonoBehaviour
     public void UpdateMusicVolume()
     {
         float newVol;
-        newVol = this.gameObject.transform.Find("MusicVolume").GetComponent<Slider>().value;
+        newVol = GameObject.Find("MusicVolume").GetComponent<Slider>().value;
         Audio.instance.UpdateMusicVolume(newVol);
     }    
 
