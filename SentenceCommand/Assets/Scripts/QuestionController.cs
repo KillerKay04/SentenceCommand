@@ -324,7 +324,7 @@ public class QuestionController : MonoBehaviour
         hideQuestions();
 
         // show prompt
-        questionPrompt.SetActive(true);
+        questionPrompt.transform.parent.gameObject.SetActive(true);
 
         // show answers
         showAnswers();
@@ -376,7 +376,7 @@ public class QuestionController : MonoBehaviour
             yield return new WaitForSeconds(DELAY);
 
             // reset answer color
-            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(233.0f, 255.0f, 218.0f, 1.0f);
 
             // increment corresponding ammo counter
             switch (questionMapping[activeQuestion].ammoType)
@@ -421,12 +421,15 @@ public class QuestionController : MonoBehaviour
             yield return new WaitForSeconds(DELAY);
 
             // reset answers color
-            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);
-            answerButtons[correctInd].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 255.0f, 255.0f, 1.0f);            
+            answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(233.0f, 255.0f, 218.0f, 1.0f);
+            answerButtons[correctInd].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(233.0f, 255.0f, 218.0f, 1.0f);    
         }
 
         // reset prompt
         questionPrompt.GetComponent<TMP_Text>().text = "";
+
+        // hide prompt
+        questionPrompt.transform.parent.gameObject.SetActive(false);
 
         // reset answers
         for (int i = 0; i < 4; i++)
