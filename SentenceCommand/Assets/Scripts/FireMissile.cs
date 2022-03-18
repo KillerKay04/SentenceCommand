@@ -42,6 +42,8 @@ public class FireMissile : MonoBehaviour
         if (ammoCheck() > 0)
         {
             {
+                // Audio
+                ags.PlayFireMissile();
 
                 GameObject missileFired = Instantiate(missile, missileSpawn.transform.position, Quaternion.identity);
                 missileFired.GetComponent<Rigidbody2D>().velocity = 10 * transform.localScale.y * missileSpawn.transform.up;
