@@ -87,7 +87,7 @@ public class QuestionController : MonoBehaviour
                 break;
             case GlobalVars.AmmoType.Homing:
                 // set ammoType color to blue
-                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(0, 0, 255, 255);
+                questionButtons[qIndex].transform.GetChild(1).GetComponent<Image>().color = new Color32(0, 145, 46, 255);
                 break;
             case GlobalVars.AmmoType.Split:
                 // set ammoType color to yellow

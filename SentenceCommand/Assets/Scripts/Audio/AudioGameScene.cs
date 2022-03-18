@@ -10,6 +10,7 @@ public class AudioGameScene : MonoBehaviour
     public AudioSource UFOHit;
     public AudioSource answerCorrect;
     public AudioSource answerWrong;
+    public AudioSource fireMissile;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class AudioGameScene : MonoBehaviour
         UFOHit.volume = vol;
         answerCorrect.volume = vol;
         answerWrong.volume = vol;
+        fireMissile.volume = vol;
     }
 
     public void PlayUIBlip()
@@ -57,5 +59,10 @@ public class AudioGameScene : MonoBehaviour
     public void PlayAnswerWrong()
     {
         answerWrong.Play();
+    }
+
+    public void PlayFireMissile()
+    {
+        fireMissile.Play();
     }
 }
