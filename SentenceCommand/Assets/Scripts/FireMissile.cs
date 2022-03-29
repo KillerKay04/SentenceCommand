@@ -7,18 +7,26 @@ public class FireMissile : MonoBehaviour
 { 
 
     [SerializeField]
-    private GameObject homeBase;
-
-    [SerializeField]
     private GameObject missileSpawn;
 
     [SerializeField]
-    private GameObject missile;
+    private GameObject standardMissile;
+
+    [SerializeField]
+    private GameObject homingMissile;
+
+    [SerializeField]
+    private GameObject splitMissile;
 
     [SerializeField]
     private GameObject userScoreText;
-
+    
+    [SerializeField]
+    private float missileSpeed = 2.0f;
+    
     private int currentScore = 0;
+
+    
 
     // Audio
     private AudioGameScene ags;
@@ -37,64 +45,71 @@ public class FireMissile : MonoBehaviour
 
     public void FireAtEnemy()
     {
-        GameObject[] enemies;
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        if (ammoCheck() > 0)
+        if (ammoCheck() > 0) 
         {
+
+            // Audio
+            ags.PlayFireMissile();
+            
+            //todo: probably need to combine the below with the next switch statement but keeping separate for now
+            switch (GlobalVars.SelectedAmmoType) 
             {
-                // Audio
-                ags.PlayFireMissile();
 
-                GameObject missileFired = Instantiate(missile, missileSpawn.transform.position, Quaternion.identity);
-                missileFired.GetComponent<Rigidbody2D>().velocity = 10 * transform.localScale.y * missileSpawn.transform.up;
+                case GlobalVars.AmmoType.Standard:
+                    
+                    GameObject standardMissileFired = Instantiate(standardMissile, missileSpawn.transform.position, missileSpawn.transform.rotation);
+                    standardMissileFired.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * missileSpawn.transform.up;
+                    break;
 
-                if (enemies.Length > 0)
-                {
-                    //GameObject closestEnemy = null;
-                    //float enemyDistance = Mathf.Infinity;
-                    //Vector2 basePosition = homeBase.transform.position;
+                case GlobalVars.AmmoType.Homing:
+  
+                    GameObject homingMissileFired = Instantiate(homingMissile, missileSpawn.transform.position, missileSpawn.transform.rotation);
+                    homingMissileFired.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * missileSpawn.transform.up;
+                    break;
 
-                    //foreach (GameObject enemy in enemies)
-                    //{
-                    //    Vector2 enemyVector = enemy.transform.position;
-                    //    Vector2 enemyToBase = enemyVector - basePosition;
-                    //    float currentDistance = enemyToBase.sqrMagnitude;
-                    //    if (currentDistance < enemyDistance)
-                    //    {
-                    //        closestEnemy = enemy;
-                    //        enemyDistance = currentDistance;
-                    //    }
+                case GlobalVars.AmmoType.Split:
 
-                    //    //draws ray to closest enemy for testing purposes
-                    //    //Debug.Log(enemyToBase);
-                    //    //Vector2 directionBaseToEnemy = homeBase.transform.position - enemy.transform.position;
-                    //    //Debug.DrawRay(enemy.transform.position, directionBaseToEnemy, Color.green);
-                    //    //RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, directionBaseToEnemy);
-                    //}
-                    //EnemyController enemyFunctions = closestEnemy.GetComponent<EnemyController>();
-                    //addToScore(enemyDistance);
-                    //enemyFunctions.destroyEnemy();
-
-                    // decrement ammo counter of selected ammoType
-                    switch (GlobalVars.SelectedAmmoType)
-                    {
-                        case GlobalVars.AmmoType.Standard:
-                            GlobalVars.ammoStandard--;
-                            break;
-                        case GlobalVars.AmmoType.Homing:
-                            GlobalVars.ammoHoming--;
-                            break;
-                        case GlobalVars.AmmoType.Split:
-                            GlobalVars.ammoSplit--;
-                            break;
+                    for (int fireAngle = -20; fireAngle < 30; fireAngle += 20) {
+                        Quaternion missileRotation = missileSpawn.transform.rotation;
+                        GameObject missileFired = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation *= Quaternion.Euler(0, 0, fireAngle)));
+                        missileFired.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * missileFired.transform.up;
                     }
-                    // tell weapon selector to update its labels
-                    weaponSelector.transform.GetComponent<WeaponSelector>().updateValues();
 
-                    //Debug.Log("Enemy destroyed");
-                    //ags.PlayUFOHit();
-                }
+                    //Quaternion missileRotation_1 = missileSpawn.transform.rotation;
+                    //GameObject SplitMissileFired_1 = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation_1 *= Quaternion.Euler(0, 0, 20)));
+                    //SplitMissileFired_1.GetComponent<Rigidbody2D>().velocity =  missileSpeed * transform.localScale.y * SplitMissileFired_1.transform.up;
+
+                    //Quaternion missileRotation_2 = missileSpawn.transform.rotation;
+                    //GameObject SplitMissileFired_2 = Instantiate(splitMissile, missileSpawn.transform.position, missileRotation_2);
+                    //SplitMissileFired_2.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * SplitMissileFired_2.transform.up;
+
+                    //Quaternion missileRotation_3 = missileSpawn.transform.rotation;
+                    //GameObject SplitMissileFired_3 = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation_3 *= Quaternion.Euler(0, 0, -20)));
+                    //SplitMissileFired_3.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * SplitMissileFired_3.transform.up;
+                    break;
+
+                
             }
+            // decrement ammo counter of selected ammoType
+            switch (GlobalVars.SelectedAmmoType)
+            {
+                case GlobalVars.AmmoType.Standard:
+                    GlobalVars.ammoStandard--;
+                    break;
+                case GlobalVars.AmmoType.Homing:
+                    GlobalVars.ammoHoming--;
+                    break;
+                case GlobalVars.AmmoType.Split:
+                    GlobalVars.ammoSplit--;
+                    break;
+            }
+            // tell weapon selector to update its labels
+            weaponSelector.transform.GetComponent<WeaponSelector>().updateValues();
+
+            //Debug.Log("Enemy destroyed");
+            //ags.PlayUFOHit();
+               
+        
         }
     }
 
