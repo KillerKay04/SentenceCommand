@@ -8,7 +8,7 @@ public class GlobalVars : MonoBehaviour
     public static AmmoType SelectedAmmoType { get; set; } = AmmoType.Standard;
 
 
-    public static int ammoStandard = 0;
-    public static int ammoHoming = 0;
-    public static int ammoSplit = 0;
+    public static int ammoStandard = 5;
+    public static int ammoHoming = 5;
+    public static int ammoSplit = 5;
 }
