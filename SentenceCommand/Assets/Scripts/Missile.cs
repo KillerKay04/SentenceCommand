@@ -18,7 +18,7 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider) 
         {   
-        if (collider.gameObject.tag == "SceneEdge") {
+        if (collider.gameObject.tag == "SceneEdge" || collider.gameObject.tag == "Enemy") {
             destroyMissile();
         }
     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5066cfdab7022b4ebb2e5231002c670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosion: {fileID: 7324744419293788517, guid: 82fdb0d945f760c4092415fadd870230, type: 3}
 --- !u!1001 &7639969211837984918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,6 +20,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 230464809480254319, guid: 4b3bedca696ebca47bda37e9a06e27ad, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.49532208
+      objectReference: {fileID: 0}
+    - target: {fileID: 230464809480254319, guid: 4b3bedca696ebca47bda37e9a06e27ad, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 230464809480254319, guid: 4b3bedca696ebca47bda37e9a06e27ad, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.20392156
+      objectReference: {fileID: 0}
     - target: {fileID: 836282959623777765, guid: 4b3bedca696ebca47bda37e9a06e27ad, type: 3}
       propertyPath: m_Radius
       value: 1.9793104

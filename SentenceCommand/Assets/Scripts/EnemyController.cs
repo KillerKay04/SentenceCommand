@@ -5,6 +5,9 @@ using PathCreation;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject explosion;
+
     private PathCreator enemyPath;
 
     private EnemyGenerator enemySpawn;
@@ -42,6 +45,9 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        Debug.Log("generating explosion...");
+        Instantiate(explosion, this.transform.position, Quaternion.identity);
+
         if (collider.gameObject.tag == "Base") {
             //calls the setShielded method from Shield script
             baseShield.GetComponent<Shield>().setShielded();
