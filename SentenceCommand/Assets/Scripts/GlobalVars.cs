@@ -14,4 +14,6 @@ public class GlobalVars : MonoBehaviour
 
     public static int questionsRight = 0;
     public static int questionsWrong = 0;
+
+    public static string json;
 }

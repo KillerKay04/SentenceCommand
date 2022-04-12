@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class QuestionController : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class QuestionController : MonoBehaviour
     /// <summary>
     /// Start is called before the first frame update. Initializes the question manager.
     /// </summary>
-    void Start()
+    public void Start()
     {
         // unity object arrays
         questionButtons = new List<GameObject>();
@@ -140,109 +141,31 @@ public class QuestionController : MonoBehaviour
     /// which the questions will pull from
     /// </summary>
     void questionParser()
-    {
-        long counter = 0;
-
-        // for now, we will manually create some questions to be used
-        Question q = new Question(counter);
-        q.prompt = "Although it does contain some fresh ideas, I would hardly describe the work as ______.";
-        List<string> answers = new List<string>();
-        answers.Add("Original");
-        answers.Add("Eccentric");
-        answers.Add("Orthodox");
-        answers.Add("Trifling");
-        q.correctAns = answers[0];
-        q.answers = answers;
-        q.explain = "";
-        qList.Add(q);
-        counter++;
-
-        q = new Question(counter);
-        q.prompt = "It was her view that the nation's problems had been _____ by social media, so that to ask for such assistance again would be counterproductive.";
-        answers = new List<string>();
-        answers.Add("Exacerbated");
-        answers.Add("Ameliorated");
-        answers.Add("Ascertained");
-        answers.Add("Diagnosed");
-        q.correctAns = answers[0];
-        q.answers = answers;
-        q.explain = "";
-        qList.Add(q);
-        counter++;
-
-        q = new Question(counter);
-        q.prompt = "It was her view that the nation's problems had been _____ by social media, so that to ask for such assistance again would be counterproductive.";
-        answers = new List<string>();
-        answers.Add("Exacerbated");
-        answers.Add("Ameliorated");
-        answers.Add("Ascertained");
-        answers.Add("Diagnosed");
-        q.correctAns = answers[0];
-        q.answers = answers;
-        q.explain = "";
-        qList.Add(q);
-        counter++;
-
-        q = new Question(counter);
-        q.prompt = "Early critics of Emily Dickinson's poetry mistook for simplemindedness the surface of artlessness that in fact she constructed with such _____.";
-        answers = new List<string>();
-        answers.Add("Cunning");
-        answers.Add("Astonishment");
-        answers.Add("Innocence");
-        answers.Add("Naivete");
-        q.correctAns = answers[0];
-        q.answers = answers;
-        q.explain = "";
-        qList.Add(q);
-        counter++;
-
-        q = new Question(counter);
-        q.prompt = "Dreams are _____ in and of themselves, but, when combined with other data, they can tell us much about the dreamer.";
-        answers = new List<string>();
-        answers.Add("Uninformative");
-        answers.Add("Astonishing");
-        answers.Add("Disordered");
-        answers.Add("Harmless");
-        q.correctAns = answers[0];
-        q.answers = answers;
-        q.explain = "";
-        qList.Add(q);
-        counter++;
-
-        /* This section of code will read and parse questions from a JSON file
-
-        // open JSON file *** WILL CHANGE TO WORK WITH Q&A SERVICE ***
-        string url = "Assets/Questions/questions.json";
-
+    {        
         // parse JSON into separate questions
-        using (StreamReader reader = File.OpenText(url))
+        JObject o = JObject.Parse(GlobalVars.json);
+        long counter = 0;
+        foreach (var x in o["records"])
         {
-            JObject o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-            long counter = 0;
-            foreach (var x in o["records"])
+            Question q = new Question(counter);
+            // get prompt
+            q.prompt = x["question"].ToString();
+            // get answers
+            List<string> answers = new List<string>();
+            foreach (var answer in x["answers"])
             {
-                Question q = new Question(counter);
-                // get prompt
-                q.prompt = x["question"].ToString();
-                // get answers
-                List<string> answers = new List<string>();
-                foreach (var answer in x["answers"])
-                {
-                    answers.Add(answer.ToString());
-                }
-                // set correct answer
-                q.correctAns = answers[0];
-                q.answers = answers;
-                // get explain
-                q.explain = x["explain"].ToString();
-                // add to qList
-                qList.Add(q);
-                // increment counter
-                counter++;
+                answers.Add(answer.ToString());
             }
+            // set correct answer
+            q.correctAns = answers[0];
+            q.answers = answers;
+            // get explain
+            q.explain = x["explain"].ToString();
+            // add to qList
+            qList.Add(q);
+            // increment counter
+            counter++;
         }
-
-        */
 
         // shuffle list
         shuffleQList();
