@@ -15,6 +15,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("OptionsMenu");
     }
 
+    public void LoadLeaderboards()   //Loads LeaderboardsScene scene
+    {
+        SceneManager.LoadScene("Leaderboards");
+    }
+
     public void QuitGame ()  //Quits application
     {
         Application.Quit();
