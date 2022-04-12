@@ -11,4 +11,7 @@ public class GlobalVars : MonoBehaviour
     public static int ammoStandard = 5;
     public static int ammoHoming = 5;
     public static int ammoSplit = 5;
+
+    public static int questionsRight = 0;
+    public static int questionsWrong = 0;
 }

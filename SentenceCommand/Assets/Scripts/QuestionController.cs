@@ -67,7 +67,11 @@ public class QuestionController : MonoBehaviour
 
         // Audio
         ags = GameObject.FindObjectOfType(typeof(AudioGameScene)) as AudioGameScene;
-    }
+
+        // QuestionsCounter
+        GlobalVars.questionsRight = 0;
+        GlobalVars.questionsWrong = 0;
+    }  
 
     /// <summary>
     /// Updates the text of the question button to match the underlying question object.
@@ -366,6 +370,9 @@ public class QuestionController : MonoBehaviour
         // if correct
         if (selected.Equals(correct))
         {
+            // increment questionsRight
+            GlobalVars.questionsRight++;
+
             // make answer green
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(0.0f, 255.0f, 0.0f, 1.0f);
 
@@ -397,6 +404,9 @@ public class QuestionController : MonoBehaviour
         // incorrect
         else
         {
+            // Increment questionsWrong
+            GlobalVars.questionsWrong++;
+            
             // make answer red
             answerButtons[childIndex].transform.GetChild(0).GetComponent<TMP_Text>().color = new Color(255.0f, 0.0f, 0.0f, 1.0f);
 
