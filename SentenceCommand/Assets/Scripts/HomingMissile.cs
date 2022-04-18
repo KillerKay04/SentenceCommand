@@ -9,7 +9,7 @@ public class HomingMissile : MonoBehaviour {
 
     private GameObject closestEnemy;
 
-    private float rotationSpeed = 250f;
+    private float rotationSpeed = 600f;
 
     private float homingSpeed = 5f;
 

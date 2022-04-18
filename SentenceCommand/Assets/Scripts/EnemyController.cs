@@ -8,12 +8,20 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private GameObject explosion;
 
+    private GameObject score;
+
     private PathCreator enemyPath;
 
     private EnemyGenerator enemySpawn;
 
     [SerializeField]
     private float speed = 5.0f;
+
+    [SerializeField]
+    private float scoreDifference = 6.0f;
+
+    [SerializeField]
+    private float scoreMultiplier = 10.0f;
 
     private float distanceTravelled;
 
@@ -26,7 +34,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         baseShield = GameObject.FindGameObjectWithTag("Base");
-
+        score = GameObject.FindGameObjectWithTag("Score");
         enemySpawn = GameObject.FindObjectOfType(typeof(EnemyGenerator)) as EnemyGenerator;
         enemyPath = enemySpawn.AssignPath();
         // instantiate audio controller
@@ -40,17 +48,16 @@ public class EnemyController : MonoBehaviour
     {
         distanceTravelled += speed * Time.deltaTime;
         transform.position = enemyPath.path.GetPointAtDistance(distanceTravelled);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("generating explosion...");
         Instantiate(explosion, this.transform.position, Quaternion.identity);
 
         if (collider.gameObject.tag == "Base") {
             //calls the setShielded method from Shield script
             baseShield.GetComponent<Shield>().setShielded();
+            score.GetComponent<Score>().updateScore(-40.0f);
 
             // if hits base, play damage sound
             // TODO, if base hit, but not destroyed play damaged
@@ -60,6 +67,7 @@ public class EnemyController : MonoBehaviour
 
         }
         else if (collider.gameObject.tag == "Cannon") {
+            score.GetComponent<Score>().updateScore((scoreDifference - distanceTravelled) * scoreMultiplier);
             ags.PlayUFOHit();
             destroyEnemy();
         }
