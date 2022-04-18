@@ -46,6 +46,9 @@ public class LeaderboardsMenu : MonoBehaviour
             // sort score list
             iScores.Sort();
 
+            // Reverse list for descending order
+            iScores.Reverse();
+
             // trim to top ten
             if (iScores.Count > 10)
             {
