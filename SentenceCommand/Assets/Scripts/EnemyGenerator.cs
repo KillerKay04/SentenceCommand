@@ -56,7 +56,6 @@ public class EnemyGenerator : MonoBehaviour
     public void decreaseEnemyCount()
     {
         enemyCount--;
-        Debug.Log(enemyCount);
     }
     
 

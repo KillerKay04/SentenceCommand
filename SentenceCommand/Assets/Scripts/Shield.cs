@@ -31,7 +31,6 @@ public class Shield : MonoBehaviour
             {
                 fadeOut = 0f;
                 isShielded = false;
-                Debug.Log("no longer shielded");
             }
 
         }
@@ -40,7 +39,6 @@ public class Shield : MonoBehaviour
 
     public void setShielded()
     {
-        Debug.Log("shield called");
         isShielded = true;
         fadeOut = 0.99f;
         shieldMat.SetFloat("_ShieldFade", fadeOut);

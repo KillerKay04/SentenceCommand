@@ -9,6 +9,9 @@ public class Timer : MonoBehaviour
     public bool timerRunning = true;
     public GameObject EndGameUI;
 
+    [SerializeField]
+    private GameObject timerText;
+
     // Update is called once per frame
     public void Update()
     {
@@ -28,6 +31,8 @@ public class Timer : MonoBehaviour
                 timeRemaining = 0;
                 endGame();
             }
+
+            timerText.GetComponent<TMP_Text>().text = UpdateTime();
         }        
     }
 

@@ -17,14 +17,10 @@ public class FireMissile : MonoBehaviour
 
     [SerializeField]
     private GameObject splitMissile;
-
-    [SerializeField]
-    private GameObject userScoreText;
     
     [SerializeField]
     private float missileSpeed = 2.0f;
     
-    private int currentScore = 0;
 
     
 
@@ -74,18 +70,6 @@ public class FireMissile : MonoBehaviour
                         GameObject missileFired = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation *= Quaternion.Euler(0, 0, fireAngle)));
                         missileFired.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * missileFired.transform.up;
                     }
-
-                    //Quaternion missileRotation_1 = missileSpawn.transform.rotation;
-                    //GameObject SplitMissileFired_1 = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation_1 *= Quaternion.Euler(0, 0, 20)));
-                    //SplitMissileFired_1.GetComponent<Rigidbody2D>().velocity =  missileSpeed * transform.localScale.y * SplitMissileFired_1.transform.up;
-
-                    //Quaternion missileRotation_2 = missileSpawn.transform.rotation;
-                    //GameObject SplitMissileFired_2 = Instantiate(splitMissile, missileSpawn.transform.position, missileRotation_2);
-                    //SplitMissileFired_2.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * SplitMissileFired_2.transform.up;
-
-                    //Quaternion missileRotation_3 = missileSpawn.transform.rotation;
-                    //GameObject SplitMissileFired_3 = Instantiate(splitMissile, missileSpawn.transform.position, (missileRotation_3 *= Quaternion.Euler(0, 0, -20)));
-                    //SplitMissileFired_3.GetComponent<Rigidbody2D>().velocity = missileSpeed * transform.localScale.y * SplitMissileFired_3.transform.up;
                     break;
 
                 
@@ -115,17 +99,7 @@ public class FireMissile : MonoBehaviour
 
     private int ammoCheck()
     {
-        /*
-        int ammoCount = 0;
-
-        string ammoText = fireButton.transform.Find("AmmoLabel").GetComponent<TMP_Text>().text;
-
-        int.TryParse(ammoText, out ammoCount);
-
-        Debug.Log(ammoCount);
-
-        return ammoCount;
-        */
+        
         // check how much ammo from global vars, depending on which ammoType is currently selected
         switch (GlobalVars.SelectedAmmoType)
         {
@@ -140,21 +114,6 @@ public class FireMissile : MonoBehaviour
                 return -1;
         }
         
-    }
-
-    private void addToScore(float distancePoints)
-    {
-        currentScore += (int)distancePoints * 10;
-        userScoreText.GetComponent<TMP_Text>().text = currentScore.ToString();
-    }
-
-    /*
-     private void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.gameObject.tag == "Enemy") {
-            destroyEnemy();
-
-        }
-    }
-    */
+    }   
     
 }
