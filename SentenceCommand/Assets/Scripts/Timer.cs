@@ -25,7 +25,7 @@ public class Timer : MonoBehaviour
             {
                 // Time.deltaTime measures the time between the last update() call and this one
                 timeRemaining -= Time.deltaTime;
-                // Debug.Log(timeRemaining);
+                timerText.GetComponent<TMP_Text>().text = UpdateTime();
             }
             else
             {
@@ -35,8 +35,6 @@ public class Timer : MonoBehaviour
                 timeRemaining = 0;
                 endGame();
             }
-
-            timerText.GetComponent<TMP_Text>().text = UpdateTime();
         }        
     }
 
@@ -45,7 +43,11 @@ public class Timer : MonoBehaviour
     {
         float minutes = Mathf.FloorToInt(timeRemaining / 60);
         float seconds = Mathf.FloorToInt(timeRemaining % 60);
-        return minutes.ToString() + ":" + seconds.ToString();
+        string secondsFormatted = seconds.ToString();
+        if (seconds < 10) {
+            secondsFormatted = "0" + secondsFormatted;
+        }
+        return minutes.ToString() + ":" + secondsFormatted;
     }
 
     // This method is called when the timer runs down to 0
