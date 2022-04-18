@@ -9,4 +9,16 @@ public class OptionsMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void SetOneMinute() {
+        GlobalVars.gameTime = 60;
+    }
+
+    public void SetTwoMinutes() {
+        GlobalVars.gameTime = 120;
+    }
+
+    public void SetFiveMinutes() {
+        GlobalVars.gameTime = 300;
+    }
 }

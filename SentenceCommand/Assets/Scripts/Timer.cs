@@ -12,6 +12,10 @@ public class Timer : MonoBehaviour
     [SerializeField]
     private GameObject timerText;
 
+    public void Start() {
+        timeRemaining = GlobalVars.gameTime;
+    }
+
     // Update is called once per frame
     public void Update()
     {

@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
         if (collider.gameObject.tag == "Base") {
             //calls the setShielded method from Shield script
             baseShield.GetComponent<Shield>().setShielded();
-            score.GetComponent<Score>().updateScore(-10.0f);
+            score.GetComponent<Score>().updateScore(-40.0f);
 
             // if hits base, play damage sound
             // TODO, if base hit, but not destroyed play damaged
